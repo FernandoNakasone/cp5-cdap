@@ -27,10 +27,14 @@ public class Cliente {
         return saldo;
     }
 
+    public String getCpfCnpj() {
+        return cpfCnpj;
+    }
+
     @Override
     public String toString() {
         return "Cliente " + nome + " - " + numeroConta  + "\n" +
                 "Conta " + tipoConta + " - " + cpfCnpj + "\n" +
-                "Saldo: " + saldo;
+                "Saldo em aplicações: R$" + saldo;
     }
 }

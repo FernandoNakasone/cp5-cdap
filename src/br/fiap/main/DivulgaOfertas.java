@@ -2,6 +2,7 @@ package br.fiap.main;
 
 import br.fiap.arvores.AbbCliente;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +34,7 @@ public class DivulgaOfertas {
                 case 1:
                     System.out.print("Digite nome: ");
                     nome = le.next();
-                    System.out.print("Digite cpf: ");
+                    System.out.print("Digite cpf ou CNPJ: ");
                     cpfCnpj = le.next();
                     System.out.print("Digite numero da conta: ");
                     numeroConta = le.nextInt();
@@ -138,8 +139,46 @@ public class DivulgaOfertas {
                         System.out.println(" 3 - Apresentar quantidade total de clientes");
                         System.out.println(" 4 – Apresentar quantidade de clientes acima de um valor");
                         System.out.println(" 5 - Voltar ao menu principal");
-
+                        System.out.print("Opção:");
                         subOpcao = le.nextInt();
+
+                        switch (subOpcao) {
+                            case 1:
+                                System.out.print("Informe o CPF ou CNPJ:");
+                                cpfCnpj = le.next();
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                    System.out.println(abbCPF.consulta(abbCPF.root,cpfCnpj));
+
+                                } else {
+                                    System.out.println(abbCNPJ.consulta(abbCNPJ.root,cpfCnpj));
+                                }
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                System.out.println("Voltando ao menu principal");
+                                break;
+                        }
 
                     } while (subOpcao != 5);
                     break;

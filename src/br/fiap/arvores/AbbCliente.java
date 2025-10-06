@@ -90,5 +90,21 @@ public class AbbCliente {
             return p;
         }
 
+    public Cliente consulta(NO p,String cpfCNPJ){
+        if(p != null) {
+            if (p.dado.getCpfCnpj().equalsIgnoreCase(cpfCNPJ)) {
+                return p.dado;
+            } else {
+                if (p.dado.getCpfCnpj().equalsIgnoreCase(cpfCNPJ)) {
+                    return consulta(p.esq, cpfCNPJ);
+                } else {
+                    return consulta(p.dir, cpfCNPJ);
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+
 
 }
