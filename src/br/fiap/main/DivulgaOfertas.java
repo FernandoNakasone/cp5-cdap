@@ -27,6 +27,7 @@ public class DivulgaOfertas {
             System.out.println(" 1 - Inscrição cliente");
             System.out.println(" 2 - Oferta de novo serviço e/ou aplicação");
             System.out.println(" 3 – Entrar no Submenu ");
+            System.out.print("Opção:");
             opcao = le.nextInt();
             switch (opcao) {
                 case 1:
@@ -56,12 +57,12 @@ public class DivulgaOfertas {
 
                     Cliente cliente = new Cliente(numeroConta, nome, cpfCnpj, tipoConta, saldo);
                     if (tipoConta.equals("Física")) {
-                        abbCPF.inserir(abbCPF.root, cliente);
+                        abbCPF.root = abbCPF.inserir(abbCPF.root, cliente);
                         System.out.println("Cliente inserido");
                         abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
                         abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
                     } else {
-                        abbCNPJ.inserir(abbCNPJ.root, cliente);
+                        abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, cliente);
                         System.out.println("Cliente inserido");
                         abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
                         abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
