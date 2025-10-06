@@ -1,5 +1,9 @@
 package br.fiap.main;
 
+import br.fiap.arvores.AbbCliente;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DivulgaOfertas {
@@ -8,6 +12,8 @@ public class DivulgaOfertas {
      */
     public static void main(String[] args) {
         Scanner le = new Scanner(System.in);
+        AbbCliente abbCPF = new AbbCliente();
+        AbbCliente abbCNPJ = new AbbCliente();
         /*
          * Cria a uma árvore de busca binária para cada tipo de conta
          * (pessoa física ou jurídica)
@@ -47,10 +53,19 @@ public class DivulgaOfertas {
                     } while (op == -1);
                     System.out.print("Informe saldo em aplicações R$: ");
                     saldo = le.nextDouble();
-                    /*
-                     * Intancia um objeto da classe Cliente e insere na ABB correspondente
-                     * a tipo de conta
-                     */
+
+                    Cliente cliente = new Cliente(numeroConta, nome, cpfCnpj, tipoConta, saldo);
+                    if (tipoConta.equals("Física")) {
+                        abbCPF.inserir(abbCPF.root, cliente);
+                        System.out.println("Cliente inserido");
+                        abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
+                        abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
+                    } else {
+                        abbCNPJ.inserir(abbCNPJ.root, cliente);
+                        System.out.println("Cliente inserido");
+                        abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
+                        abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
+                    }
                     break;
                 case 2:
                     System.out.print("Qual tipo de conta a oferta se destina? ");
@@ -71,21 +86,67 @@ public class DivulgaOfertas {
                     } while (op == -1);
                     System.out.print("Qual o valor de saldo mínimo exigido: R$ ");
                     saldo = le.nextDouble();
-                    /*
-                     * Fazendo uso de um método da classe ABB, desenvolvido para este
-                     * problema, uma lista de clientes aptos para a oferta é gerada.
-                     * Nesse trecho de programa que tentar fazer o contato com todos os
-                     * clientes presente na lista.
-                     */
+
+                    List<Cliente> listaOferta = new ArrayList<>();
+                    if (tipoConta.equals("Física")) {
+                        abbCPF.gerarLista(abbCPF.root, saldo, listaOferta);
+                    } else {
+                        abbCNPJ.gerarLista(abbCNPJ.root, saldo, listaOferta);
+                    }
+
+                    if (listaOferta.isEmpty()) {
+                        System.out.println("Nenhum cliente corresponde ao saldo mínimo!");
+                        break;
+                    }
+
+                    System.out.println(listaOferta.size() + " clientes encontrados!\n" +
+                            "Entrando em contato.");
+                    for (int i=0; i < listaOferta.size(); i++) {
+                        cliente = listaOferta.get(i);
+                        System.out.println("Cliente " + cliente.getNome() + " - " + cliente.getNumeroConta() + "\n" +
+                                "Aceitou a oferta? (S/N)");
+                        String resp = le.next();
+
+                        while(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N")){
+                            System.out.println("Resposta inválida");
+                            System.out.println("Cliente " + cliente.getNome() + " - " + cliente.getNumeroConta() + "\n" +
+                                    "Aceitou a oferta? (S/N)");
+                            resp = le.next();
+                        }
+
+                        if(resp.equalsIgnoreCase("S")) {
+
+                            if (tipoConta.equals("Física")) {
+                                abbCPF.removeValor(abbCPF.root, cliente.getNumeroConta());
+                            } else {
+                                abbCNPJ.removeValor(abbCNPJ.root, cliente.getNumeroConta());
+                            }
+
+                            System.out.println("Cliente aceitou a oferta!");
+                        } else {
+                            System.out.println("Cliente recusou a oferta.");
+                        }
+                    }
                     break;
+
                 case 3:
-                    /*
-                     * Implemente o submenu descrito no texto
-                     */
+                    int subOpcao;
+                    do {
+                        System.out.println(" 1 - Consultar por CPF/CNPJ");
+                        System.out.println(" 2 - Atualizar saldo");
+                        System.out.println(" 3 - Apresentar quantidade total de clientes");
+                        System.out.println(" 4 – Apresentar quantidade de clientes acima de um valor");
+                        System.out.println(" 5 - Voltar ao menu principal");
+
+                        subOpcao = le.nextInt();
+
+                    } while (subOpcao != 5);
                     break;
             }
         } while (opcao != 0);
         System.out.println("Clientes que não aceitaram ou não estavam adequados para a oferta");
+        abbCPF.show(abbCPF.root);
+        abbCNPJ.show(abbCNPJ.root);
         /*
          * Esvazia as ABBs apresentando todos os clientes que aguardam nova portunidade
          */
