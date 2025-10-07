@@ -52,6 +52,7 @@ public class AbbCliente {
                     lista.add(p.dado);
                     System.out.println("Valor adicionado");
                 }
+
                 gerarLista(p.esq, minimo, lista);
 
             }
