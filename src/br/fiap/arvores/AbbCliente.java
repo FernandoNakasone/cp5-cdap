@@ -52,6 +52,7 @@ public class AbbCliente {
                     lista.add(p.dado);
                     System.out.println("Valor adicionado");
                 }
+
                 gerarLista(p.esq, minimo, lista);
 
             }
@@ -89,6 +90,37 @@ public class AbbCliente {
             }
             return p;
         }
+
+    public Cliente consulta(NO p,String cpfCNPJ){
+        if(p != null) {
+            if (p.dado.getCpfCnpj().equalsIgnoreCase(cpfCNPJ)) {
+                return p.dado;
+            } else {
+                if (p.dado.getCpfCnpj().equalsIgnoreCase(cpfCNPJ)) {
+                    return consulta(p.esq, cpfCNPJ);
+                } else {
+                    return consulta(p.dir, cpfCNPJ);
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public Cliente atualizaSaldo(NO p,int numConta, double saldo) {
+        if(p != null) {
+            if (p.dado.getNumeroConta() == numConta) {
+                p.dado.adicionarSaldo(saldo);
+                return p.dado;
+            } else if(atualizaSaldo(p.esq,numConta,saldo) == null) {
+                return atualizaSaldo(p.dir, numConta, saldo);
+            } else {
+                return atualizaSaldo(p.esq, numConta, saldo);
+            }
+        } else {
+            return null;
+        }
+    }
 
 
 }

@@ -2,6 +2,7 @@ package br.fiap.main;
 
 import br.fiap.arvores.AbbCliente;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,16 +24,18 @@ public class DivulgaOfertas {
         String tipoConta = null;
         double saldo;
         do {
+            System.out.println("----------------------------------------------------------------------------");
             System.out.println(" 0 - Encerrar o programa");
             System.out.println(" 1 - Inscrição cliente");
             System.out.println(" 2 - Oferta de novo serviço e/ou aplicação");
             System.out.println(" 3 – Entrar no Submenu ");
+            System.out.print("Opção:");
             opcao = le.nextInt();
             switch (opcao) {
                 case 1:
                     System.out.print("Digite nome: ");
                     nome = le.next();
-                    System.out.print("Digite cpf: ");
+                    System.out.print("Digite cpf ou CNPJ: ");
                     cpfCnpj = le.next();
                     System.out.print("Digite numero da conta: ");
                     numeroConta = le.nextInt();
@@ -56,12 +59,12 @@ public class DivulgaOfertas {
 
                     Cliente cliente = new Cliente(numeroConta, nome, cpfCnpj, tipoConta, saldo);
                     if (tipoConta.equals("Física")) {
-                        abbCPF.inserir(abbCPF.root, cliente);
+                        abbCPF.root = abbCPF.inserir(abbCPF.root, cliente);
                         System.out.println("Cliente inserido");
                         abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
                         abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
                     } else {
-                        abbCNPJ.inserir(abbCNPJ.root, cliente);
+                        abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, cliente);
                         System.out.println("Cliente inserido");
                         abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
                         abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
@@ -132,13 +135,96 @@ public class DivulgaOfertas {
                 case 3:
                     int subOpcao;
                     do {
+                        System.out.println("----------------------------------------------------------------------------");
                         System.out.println(" 1 - Consultar por CPF/CNPJ");
                         System.out.println(" 2 - Atualizar saldo");
                         System.out.println(" 3 - Apresentar quantidade total de clientes");
                         System.out.println(" 4 – Apresentar quantidade de clientes acima de um valor");
                         System.out.println(" 5 - Voltar ao menu principal");
-
+                        System.out.print("Opção:");
                         subOpcao = le.nextInt();
+
+                        switch (subOpcao) {
+                            case 1:
+                                System.out.print("Informe o CPF ou CNPJ:");
+                                cpfCnpj = le.next();
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                        Cliente c = abbCPF.consulta(abbCPF.root, cpfCnpj);
+                                        if (c != null) {
+                                            System.out.println(c);
+                                        } else {
+                                            System.out.println("Nenhum cliente encontrado");
+                                        }
+                                } else {
+                                        Cliente c = abbCNPJ.consulta(abbCNPJ.root, cpfCnpj);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
+                                }
+                                break;
+                            case 2:
+                                System.out.print("Informe o número da conta:");
+                                numeroConta = le.nextInt();
+                                System.out.print("Informe o valor á adicionar:");
+                                saldo  = le.nextDouble();
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                    Cliente c = abbCPF.atualizaSaldo(abbCPF.root, numeroConta, saldo);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
+                                } else {
+                                    Cliente c = abbCNPJ.atualizaSaldo(abbCNPJ.root, numeroConta, saldo);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
+                                }
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                System.out.println("Voltando ao menu principal");
+                                break;
+                        }
 
                     } while (subOpcao != 5);
                     break;
