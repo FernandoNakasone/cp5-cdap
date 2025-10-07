@@ -31,6 +31,10 @@ public class Cliente {
         return cpfCnpj;
     }
 
+    public void adicionarSaldo(double valor) {
+        saldo += valor;
+    }
+
     @Override
     public String toString() {
         return "Cliente " + nome + " - " + numeroConta  + "\n" +

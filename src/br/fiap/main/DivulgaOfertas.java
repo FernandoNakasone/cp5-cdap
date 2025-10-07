@@ -24,6 +24,7 @@ public class DivulgaOfertas {
         String tipoConta = null;
         double saldo;
         do {
+            System.out.println("----------------------------------------------------------------------------");
             System.out.println(" 0 - Encerrar o programa");
             System.out.println(" 1 - Inscrição cliente");
             System.out.println(" 2 - Oferta de novo serviço e/ou aplicação");
@@ -134,6 +135,7 @@ public class DivulgaOfertas {
                 case 3:
                     int subOpcao;
                     do {
+                        System.out.println("----------------------------------------------------------------------------");
                         System.out.println(" 1 - Consultar por CPF/CNPJ");
                         System.out.println(" 2 - Atualizar saldo");
                         System.out.println(" 3 - Apresentar quantidade total de clientes");
@@ -163,13 +165,57 @@ public class DivulgaOfertas {
                                 } while (op == -1);
 
                                 if (tipoConta.equals("Física")) {
-                                    System.out.println(abbCPF.consulta(abbCPF.root,cpfCnpj));
-
+                                        Cliente c = abbCPF.consulta(abbCPF.root, cpfCnpj);
+                                        if (c != null) {
+                                            System.out.println(c);
+                                        } else {
+                                            System.out.println("Nenhum cliente encontrado");
+                                        }
                                 } else {
-                                    System.out.println(abbCNPJ.consulta(abbCNPJ.root,cpfCnpj));
+                                        Cliente c = abbCNPJ.consulta(abbCNPJ.root, cpfCnpj);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
                                 }
                                 break;
                             case 2:
+                                System.out.print("Informe o número da conta:");
+                                numeroConta = le.nextInt();
+                                System.out.print("Informe o valor á adicionar:");
+                                saldo  = le.nextDouble();
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                    Cliente c = abbCPF.atualizaSaldo(abbCPF.root, numeroConta, saldo);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
+                                } else {
+                                    Cliente c = abbCNPJ.atualizaSaldo(abbCNPJ.root, numeroConta, saldo);
+                                    if (c != null) {
+                                        System.out.println(c);
+                                    } else {
+                                        System.out.println("Nenhum cliente encontrado");
+                                    }
+                                }
                                 break;
                             case 3:
                                 break;
