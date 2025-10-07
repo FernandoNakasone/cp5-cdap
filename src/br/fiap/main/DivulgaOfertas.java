@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class DivulgaOfertas {
 
-    // método estático para inserir elementos nas ABBs
+    // método estático para inserir elementos nas ABBs.
     /*
     static AbbCliente abbCPF = new AbbCliente();
     static AbbCliente abbCNPJ = new AbbCliente();
