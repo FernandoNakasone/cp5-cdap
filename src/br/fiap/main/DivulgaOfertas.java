@@ -9,25 +9,34 @@ import java.util.Scanner;
 
 public class DivulgaOfertas {
 
+    // método estático para inserir elementos nas ABBs
+    /*
     static AbbCliente abbCPF = new AbbCliente();
     static AbbCliente abbCNPJ = new AbbCliente();
     static {
         abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(123, "Fernando", "123", "Física", 123));
         abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(234, "Gilmar", "234", "Física", 234));
         abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(345, "Eduardo", "345", "Física", 345));
-        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(1234, "Caíque", "1234", "Jurídica", 1234));
-        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(2345, "Vitor", "2345", "Jurídica", 2345));
-        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(3456, "Selmini", "3456", "Jurídica", 3456));
+        abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, new Cliente(1234, "Caíque", "1234", "Jurídica", 1234));
+        abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, new Cliente(2345, "Vitor", "2345", "Jurídica", 2345));
+        abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, new Cliente(3456, "Selmini", "3456", "Jurídica", 3456));
     }
+     */
+
     /*
      * NOMES E RM dos alunos que compõem o grupo
+     * Caíque de Lacerda Braga - 555532
+     * Eduardo Arrivabene Caló - 555933
+     * Fernando Massaji Nakasone - 558179
+     * Gilmar Moura de Carvalho Junior - 557292
+     * Vitor Garcia Correia - 558516
      */
+
     public static void main(String[] args) {
         Scanner le = new Scanner(System.in);
-        /*
-         * Cria a uma árvore de busca binária para cada tipo de conta
-         * (pessoa física ou jurídica)
-         */
+        AbbCliente abbCPF = new AbbCliente();
+        AbbCliente abbCNPJ = new AbbCliente();
+
         int opcao, op, numeroConta;
         String nome, cpfCnpj;
         String tipoConta = null;
@@ -188,7 +197,7 @@ public class DivulgaOfertas {
                             case 2:
                                 System.out.print("Informe o número da conta:");
                                 numeroConta = le.nextInt();
-                                System.out.print("Informe o valor á adicionar:");
+                                System.out.print("Informe o novo saldo da conta:");
                                 saldo  = le.nextDouble();
                                 do {
                                     System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
@@ -223,8 +232,52 @@ public class DivulgaOfertas {
                                 }
                                 break;
                             case 3:
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                    System.out.println("Clientes armazenados na ABB: " + abbCPF.contaNos(abbCPF.root, 0));
+                                } else {
+                                    System.out.println("Clientes armazenados na ABB: " + abbCNPJ.contaNos(abbCNPJ.root, 0));
+                                }
                                 break;
                             case 4:
+                                System.out.print("Digite o valor mínimo para consulta: ");
+                                double saldoMinimo = le.nextInt();
+                                do {
+                                    System.out.print("Digite 1- Pessoa Física 2- Pessoa Jurídica: ");
+                                    op = le.nextInt();
+                                    switch (op) {
+                                        case 1:
+                                            tipoConta = "Física";
+                                            break;
+                                        case 2:
+                                            tipoConta = "Jurídica";
+                                            break;
+                                        default:
+                                            System.out.println("Opção inválida ");
+                                            op = -1;
+                                    }
+                                } while (op == -1);
+
+                                if (tipoConta.equals("Física")) {
+                                    System.out.println("Clientes armazenados na ABB: " + abbCPF.contaNosAcima(abbCPF.root, 0, saldoMinimo));
+                                } else {
+                                    System.out.println("Clientes armazenados na ABB: " + abbCNPJ.contaNosAcima(abbCNPJ.root, 0, saldoMinimo));
+                                }
                                 break;
                             case 5:
                                 System.out.println("Voltando ao menu principal");
@@ -238,8 +291,5 @@ public class DivulgaOfertas {
         System.out.println("Clientes que não aceitaram ou não estavam adequados para a oferta");
         abbCPF.show(abbCPF.root);
         abbCNPJ.show(abbCNPJ.root);
-        /*
-         * Esvazia as ABBs apresentando todos os clientes que aguardam nova portunidade
-         */
     }
 }
