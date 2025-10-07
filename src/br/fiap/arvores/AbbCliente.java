@@ -112,12 +112,10 @@ public class AbbCliente {
             if (p.dado.getNumeroConta() == numConta) {
                 p.dado.adicionarSaldo(saldo);
                 return p.dado;
+            } else if(atualizaSaldo(p.esq,numConta,saldo) == null) {
+                return atualizaSaldo(p.dir, numConta, saldo);
             } else {
-                if (p.dado.getNumeroConta() > numConta) {
-                    return atualizaSaldo(p.esq, numConta, saldo );
-                } else {
-                    return atualizaSaldo(p.dir, numConta, saldo );
-                }
+                return atualizaSaldo(p.esq, numConta, saldo);
             }
         } else {
             return null;
