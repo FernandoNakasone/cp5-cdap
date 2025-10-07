@@ -27,12 +27,12 @@ public class Cliente {
         return saldo;
     }
 
-    public String getCpfCnpj() {
-        return cpfCnpj;
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
-    public void adicionarSaldo(double valor) {
-        saldo += valor;
+    public String getCpfCnpj() {
+        return cpfCnpj;
     }
 
     @Override

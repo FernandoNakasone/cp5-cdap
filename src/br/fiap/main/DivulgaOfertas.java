@@ -8,13 +8,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DivulgaOfertas {
+
+    static AbbCliente abbCPF = new AbbCliente();
+    static AbbCliente abbCNPJ = new AbbCliente();
+    static {
+        abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(123, "Fernando", "123", "Física", 123));
+        abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(234, "Gilmar", "234", "Física", 234));
+        abbCPF.root = abbCPF.inserir(abbCPF.root, new Cliente(345, "Eduardo", "345", "Física", 345));
+        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(1234, "Caíque", "1234", "Jurídica", 1234));
+        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(2345, "Vitor", "2345", "Jurídica", 2345));
+        abbCNPJ.root = abbCNPJ.inserir(abbCPF.root, new Cliente(3456, "Selmini", "3456", "Jurídica", 3456));
+    }
     /*
      * NOMES E RM dos alunos que compõem o grupo
      */
     public static void main(String[] args) {
         Scanner le = new Scanner(System.in);
-        AbbCliente abbCPF = new AbbCliente();
-        AbbCliente abbCNPJ = new AbbCliente();
         /*
          * Cria a uma árvore de busca binária para cada tipo de conta
          * (pessoa física ou jurídica)
@@ -61,13 +70,9 @@ public class DivulgaOfertas {
                     if (tipoConta.equals("Física")) {
                         abbCPF.root = abbCPF.inserir(abbCPF.root, cliente);
                         System.out.println("Cliente inserido");
-                        abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
-                        abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
                     } else {
                         abbCNPJ.root = abbCNPJ.inserir(abbCNPJ.root, cliente);
                         System.out.println("Cliente inserido");
-                        abbCPF.show(abbCPF.root);  // Mostrar clientes para garantir que estão inseridos
-                        abbCNPJ.show(abbCNPJ.root);  // Mostrar clientes para garantir que estão inseridos
                     }
                     break;
                 case 2:
